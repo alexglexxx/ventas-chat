@@ -1,24 +1,37 @@
+name: Deploy to Firebase Hosting on merge
+'on':
+  push:
+    branches:
+      - main
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v4
       
-      # 1. Instalar Node.js
-      - uses: actions/setup-node@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
-      # 2. Instalar las librerías (Esto evita el error 'next: not found')
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      # 3. Autenticar y bajar archivos de GCloud (Si los necesitas para el build)
-      - uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
-      - run: gsutil cp gs://tu-bucket/archivo .
+      # Descomenta y configura esto cuando tengas tu GCP_SA_KEY en GitHub Secrets
+      # - name: Authenticate to Google Cloud
+      #   uses: google-github-actions/auth@v2
+      #   with:
+      #     credentials_json: ${{ secrets.GCP_SA_KEY }}
+      
+      # - name: Sync from GCS (Opcional)
+      #   run: gsutil cp gs://tu-bucket-real/archivo . || echo "Bucket no configurado"
 
-      # 4. Construir el proyecto
-      - run: npm run build
+      - name: Build Next.js
+        run: npm run build
 
-      # 5. El paso de Firebase que ya tienes...
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_VENTAS_CHAT }}'
