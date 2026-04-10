@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Cualquiera puede ver los negocios y sus menús (público)
+    match /tenants/{tenantId} {
+      allow read: if true;
+      allow write: if false; // Solo por SDK de Admin o tú manualmente
+      
+      match /menu/{item} {
+        allow read: if true;
+        allow write: if false;
+      }
+    }
+    
+    // 2. Regla para pruebas (temporal)
+    // match /{document=**} {
+    //   allow read, write: if request.time < timestamp.date(2026, 5, 5);
+    // }
+  }
+}

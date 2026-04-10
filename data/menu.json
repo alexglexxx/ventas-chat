@@ -1,0 +1,24 @@
+{
+  "business": {
+    "name": "Tacos El Güero",
+    "whatsapp": "5213221070973",
+    "description": "Los mejores tacos de la cuadra, directo a tu WhatsApp."
+  },
+  "categories": [
+    {
+      "name": "Tacos",
+      "items": [
+        { "name": "Pastor", "price": 18, "description": "Con piña y jardín." },
+        { "name": "Asada", "price": 22, "description": "Carne de primera." },
+        { "name": "Tripa", "price": 25, "description": "Bien doradita." }
+      ]
+    },
+    {
+      "name": "Bebidas",
+      "items": [
+        { "name": "Refresco 600ml", "price": 20, "description": "Coca-Cola, Jarritos, Sidral." },
+        { "name": "Agua de Horchata", "price": 15, "description": "Vaso de 1/2 litro." }
+      ]
+    }
+  ]
+}
