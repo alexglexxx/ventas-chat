@@ -68,7 +68,7 @@ export default function SuperAdminPage() {
       unsubscribeTenants();
       unsubscribeAppts();
       unsubscribeOrders();
-    }[]);
+    });
 
   const handleCreateBiz = async (e: React.FormEvent) => {
     e.preventDefault();
