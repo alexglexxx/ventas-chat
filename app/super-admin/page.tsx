@@ -69,10 +69,10 @@ export default function SuperAdminPage() {
       unsubscribeAppts();
       unsubscribeOrders();
     };
-   ,[]); 
+    ,[]); 
 
 
-  const handleCreateBiz = async (e: React.FormEvent) => {
+   const handleCreateBiz = async (e: React.FormEvent) => {
     e.preventDefault();
     const id = newBiz.id.toLowerCase().replace(/\s+/g, '-');
     await setDoc(doc(db, "tenants", id), {
