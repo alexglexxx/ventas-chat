@@ -1,42 +1,63 @@
-# Esquema para Ventas-Chat (Taco Shop)
+# Esquema Híbrido Universal: Ventas-Chat (Tacos + Citas)
 
-# Negocios (Tenants)
-type Tenant @table {
+# 1. El Negocio (Tenant)
+type Business @table {
   id: String! @default(expr: "uuidV4()")
   name: String!
-  slug: String! @unique # Ejemplo: "tacos-el-guero"
+  slug: String! @unique
   phoneNumber: String!
+  address: String
+  businessType: String! # "TAQUERIA" o "SERVICIOS"
+  
+  # Configuración Visual y Moneda
   primaryColor: String @default(value: "#000000")
   currency: String @default(value: "MXN")
+  
+  # Integraciones
+  googleCalendarId: String # ID del calendario del dueño
+  whatsappToken: String # Token específico si se requiere
+  
   active: Boolean @default(value: true)
 }
 
-# Productos (Menú)
+# 2. MUNDO TAQUERÍA: Productos y Menú
 type Product @table {
   id: String! @default(expr: "uuidV4()")
-  tenant: Tenant!
+  business: Business!
   name: String!
   description: String
   price: Float!
   category: String! # taco, bebida, extra, salsa
-  imageUrl: String
   active: Boolean @default(value: true)
 }
 
-# Pedidos (Historial)
-type Order @table {
+# 3. MUNDO SERVICIOS: Información y Citas
+# (Solo descriptivo, no para carrito)
+type ServiceInfo @table {
   id: String! @default(expr: "uuidV4()")
-  tenant: Tenant!
-  customerName: String
-  total: Float!
-  status: String @default(value: "PENDING") # PENDING, COMPLETED, CANCELLED
+  business: Business!
+  name: String!
+  description: String
+  price: Float
+}
+
+type Appointment @table {
+  id: String! @default(expr: "uuidV4()")
+  business: Business!
+  customerName: String!
+  customerPhone: String!
+  serviceName: String # El servicio por el que pregunta
+  startTime: Timestamp!
+  googleEventId: String # Para sincronizar con Google Calendar
+  status: String @default(value: "PENDING") # PENDING, CONFIRMED, CANCELLED
   createdAt: Timestamp! @default(expr: "request.time")
 }
 
-# Detalles del Pedido (Relación muchos-a-muchos)
-type OrderItem @table(key: ["order", "product"]) {
-  order: Order!
-  product: Product!
-  quantity: Int!
-  platterNumber: Int # Para la lógica de "Plato 1", "Plato 2"
+# 4. Horarios de Atención (Común para ambos)
+type BusinessHours @table {
+  id: String! @default(expr: "uuidV4()")
+  business: Business!
+  dayOfWeek: Int! # 0-6
+  openTime: String! # "09:00"
+  closeTime: String! # "18:00"
 }
