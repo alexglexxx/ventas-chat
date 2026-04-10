@@ -13,7 +13,7 @@ import {
   orderBy
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { db, auth } from "@/lib/firebase";
+import { db, auth } from "@/lib/firebase-client";
 
 interface Product {
   id: string;
