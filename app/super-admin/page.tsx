@@ -12,7 +12,7 @@ import {
   collectionGroup,
   query
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db } from "@/lib/firebase-client";
 
 interface Tenant {
   id: string;
@@ -68,7 +68,8 @@ export default function SuperAdminPage() {
       unsubscribeTenants();
       unsubscribeAppts();
       unsubscribeOrders();
-    });
+    };
+  },[]);
 
   const handleCreateBiz = async (e: React.FormEvent) => {
     e.preventDefault();
