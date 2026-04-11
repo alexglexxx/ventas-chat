@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { doc, collection, onSnapshot } from "firebase/firestore";
+import { doc, addDoc, getDoc, collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/lib/firebase-client";
 
 interface Product {
