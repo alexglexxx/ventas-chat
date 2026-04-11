@@ -18,8 +18,9 @@ interface Tenant {
   id: string;
   name: string;
   businessType: "TAQUERIA" | "SERVICIOS";
-  status: "active" | "inactive" | "pending_payment";
-  plan: "basic" | "pro" | "elite";
+  status?: "active" | "inactive" | "pending_payment";
+  openStatus?: "OPEN" | "CLOSE"
+plan: "basic" | "pro" ;
 }
 
 import { onAuthStateChanged } from "firebase/auth";
