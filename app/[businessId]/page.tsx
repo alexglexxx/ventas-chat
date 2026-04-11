@@ -24,6 +24,7 @@ interface Service {
 interface Tenant {
   name: string;
   businessType: "TAQUERIA" | "SERVICIOS";
+  openStatus: string;
   address?: string;
   config: { primaryColor: string; currency: string };
   whatsapp: { phoneNumber: string; welcomeMessage: string };
