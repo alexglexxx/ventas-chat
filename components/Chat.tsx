@@ -10,7 +10,7 @@ import {
   serverTimestamp,
   type DocumentData
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db } from "@/lib/firebase-client";
 
 interface Message {
   id: string;
