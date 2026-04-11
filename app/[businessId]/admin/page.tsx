@@ -35,8 +35,10 @@ interface Appointment {
 
 interface Tenant {
   name: string;
+  id: string;
   businessType: "TAQUERIA" | "SERVICIOS";
   address?: string;
+  openStatus?: string;
   googleCalendarId?: string;
   ownerEmail?: string;
   status: string;
