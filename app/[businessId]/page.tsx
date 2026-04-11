@@ -113,8 +113,8 @@ export default function BusinessPage() {
   const isBusinessOpen = () => {
     if (!tenant) return false;
     // 1. Override Manual
-    if (tenant.status === "CLOSED") return false;
-    if (tenant.status === "OPEN") return true;
+    if (tenant.openStatus === "CLOSED") return false;
+    if (tenant.openStatus === "OPEN") return true;
 
     // 2. Lógica Automática (Horarios)
     const now = new Date();
