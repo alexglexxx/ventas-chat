@@ -3,28 +3,27 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Deploy to Firebase
+        run: firebase deploy --only hosting --non-interactive --project ventas-chat-d8518
         env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
           NEXT_PUBLIC_FIREBASE_API_KEY: "dummy"
           NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "dummy"
           NEXT_PUBLIC_FIREBASE_PROJECT_ID: "dummy"
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: "dummy"
           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "dummy"
           NEXT_PUBLIC_FIREBASE_APP_ID: "dummy"
-
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_VENTAS_CHAT_D8518 }}
-          channelId: live
-          projectId: ventas-chat-d8518
