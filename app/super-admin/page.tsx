@@ -23,7 +23,7 @@ interface Tenant {
 }
 
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { auth } from "@/lib/firebase-client";
 import { useRouter } from "next/navigation";
 
 export default function SuperAdminPage() {
