@@ -1,5 +1,9 @@
 "use client";
 
+if (true) {
+  return <h1>Dashboard vivo 🔥</h1>;
+}
+
 import { useEffect, useState } from "react";
 import { 
   collection, 
