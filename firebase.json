@@ -1,6 +1,9 @@
 {
   "hosting": {
-    "source": ".",
+    "source": ".", 
+    "frameworksBackend": {
+      "region": "us-central1"
+    },
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -26,10 +29,5 @@
   },
   "dataconnect": {
     "source": "dataconnect"
-  },
-  "emulators": {
-    "dataconnect": {
-      "dataDir": "dataconnect/.dataconnect/pgliteData"
-    }
   }
 }
