@@ -59,6 +59,7 @@ jobs:
         run: |
           npx firebase-tools deploy \
             --only hosting \
+            --force\
             --non-interactive \
             --project ventas-chat-d8518
         env:
