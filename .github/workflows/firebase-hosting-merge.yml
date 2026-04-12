@@ -1,4 +1,4 @@
-name: "Production Deployment: Ventas-Chat"
+name: "Production Deploy: Next.js + WhatsApp Bot"
 
 on:
   push:
@@ -8,38 +8,31 @@ on:
 
 jobs:
   build_and_deploy:
-    name: Build & Release
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    
     permissions:
       contents: read
       id-token: write
 
     steps:
-      - name: 1. 📂 Checkout Repository
+      - name: 📂 Checkout Code
         uses: actions/checkout@v4
 
-      - name: 2. 🟢 Setup Node.js (LTS 20)
+      - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      - name: 3. 📦 Install Dependencies
+      - name: 📦 Install Root Dependencies (Next.js)
         run: npm ci
 
-      - name: 4. ⚡ Cache Next.js Build
-        uses: actions/cache@v4
-        with:
-          path: ${{ github.workspace }}/.next/cache
-          # Genera un nuevo cache si cambian los locks o archivos fuente
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+      - name: 🤖 Install Functions Dependencies (WhatsApp Bot)
+        # Este paso es vital para que Firebase pueda analizar tu webhook
+        run: cd functions && npm install
 
-      - name: 5. 🛠️ Build Application
-        # Aquí inyectamos las variables de entorno necesarias para el empaquetado estático
+      - name: 🛠️ Build Next.js
+        # CRÍTICO: Aquí inyectamos las keys reales. 
+        # Asegúrate de tener estos nombres en GitHub Secrets.
         run: npm run build
         env:
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
@@ -49,12 +42,12 @@ jobs:
           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
           NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
 
-      - name: 6. 🔐 Authenticate with Google Cloud
+      - name: 🔐 Authenticate with Google
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
 
-      - name: 7. 🚀 Deploy to Firebase
+      - name: 🚀 Deploy to Firebase
         run: |
           npx firebase-tools deploy \
             --only hosting,functions \
@@ -63,4 +56,3 @@ jobs:
             --project ventas-chat-d8518
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
-
