@@ -7,12 +7,15 @@
       "**/node_modules/**"
     ],
     "cleanUrls": true,
-    "trailingSlash": false
+    "trailingSlash": false,
+    "frameworksBackend": {
+      "region": "us-central1"
+    }
   },
   "functions": [
     {
       "source": "functions",
-      "codebase": "default",
+      "codebase": "whatsapp-bot",
       "ignore": [
         "node_modules",
         ".git",
@@ -25,8 +28,5 @@
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
-  },
-  "dataconnect": {
-    "source": "dataconnect"
   }
 }
