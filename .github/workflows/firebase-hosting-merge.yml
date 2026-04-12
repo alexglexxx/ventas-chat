@@ -55,11 +55,10 @@ jobs:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
 
       - name: 7. 🚀 Deploy to Firebase
-        # Eliminamos --force. Si falla por Cleanup Policy, se debe ajustar el rol en Google Cloud Console.
         run: |
-          npx firebase-tools deploy --only\
-            --hosting,functions--force\
-            --force\
+          npx firebase-tools deploy \
+            --only hosting,functions \
+            --force \
             --non-interactive \
             --project ventas-chat-d8518
         env:
