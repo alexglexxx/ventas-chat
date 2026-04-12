@@ -4,7 +4,7 @@ const { getFirestore } = require("firebase-admin/firestore");
 const https = require("https");
 
 admin.initializeApp();
-}
+
 const db = getFirestore();
 
 // --- FUNCIÓN UNIVERSAL PARA ENVIAR WHATSAPP ---
